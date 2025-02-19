@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
 
 function App() {
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/")
+      .then((response) => response.text()) // Get raw HTML response
+      .then((data) => setContent(data))
+      .catch((error) => console.error("Error fetching:", error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>FastAPI + React (Website embedding)</h1>
+      <iframe
+        srcDoc={content}
+        style={{ width: "100%", height: "100vh", border: "none" }}
+      />
     </div>
   );
 }
